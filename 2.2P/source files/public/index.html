@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Square Calculator</title>
+</head>
+
+<body>
+    <h1>Square Calculator</h1>
+    <form action="/square" method="GET">
+        <label for="num">Enter a number:</label>
+        <input type="text" id="num" name="num" required>
+        <button type="submit" id="submitBtn">Calculate Square</button>
+    </form>
+    <p id="resultDisplay"></p>
+
+    <script>
+        // Attach an event listener to the button
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            fetch('/square?num=' + document.getElementById('num').value)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the fetched quote in the page
+                    document.getElementById('resultDisplay').innerText = `The square of ${data.num} is: ${data.square}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching square:', error);
+                    document.getElementById('resultDisplay').innerText = 'Error fetching square.';
+                });
+        });
+    </script>
+</body>
+
+</html>
