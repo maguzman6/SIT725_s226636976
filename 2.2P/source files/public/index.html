@@ -3,31 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Square Calculator</title>
+    <title>Sequential Calculator</title>
 </head>
 
 <body>
-    <h1>Square Calculator</h1>
-    <form action="/square" method="GET">
-        <label for="num">Enter a number:</label>
-        <input type="text" id="num" name="num" required>
-        <button type="submit" id="submitBtn">Calculate Square</button>
-    </form>
-    <p id="resultDisplay"></p>
+    <h1>Calculator</h1>
+    <p>Select your calculator</p>
+    <button id="calcBtn">Task Calculator</button>
+    <button id="seqCalcBtn">Sequential Calculator</button>
+
 
     <script>
-        // Attach an event listener to the button
-        document.getElementById('submitBtn').addEventListener('click', function () {
-            fetch('/square?num=' + document.getElementById('num').value)
-                .then(response => response.json())
-                .then(data => {
-                    // Display the fetched quote in the page
-                    document.getElementById('resultDisplay').innerText = `The square of ${data.num} is: ${data.square}`;
-                })
-                .catch(error => {
-                    console.error('Error fetching square:', error);
-                    document.getElementById('resultDisplay').innerText = 'Error fetching square.';
-                });
+        document.getElementById('calcBtn').addEventListener('click', function () {
+            window.location.href = '/calc.html';
+        });
+
+        document.getElementById('seqCalcBtn').addEventListener('click', function () {
+            window.location.href = '/seqcalc.html';
         });
     </script>
 </body>

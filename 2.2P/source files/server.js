@@ -28,8 +28,59 @@ app.get('/square', (req, res) => {
     const square = num * num;
 
     // Send a plain text response showing the result.
-    res.send(`The square of ${num} is: ${square}`);
+    res.json({ result: square });
 });
+
+// Create a GET endpoint at /add
+app.get('/add', (req, res) => {
+    // Parse the numbers from the query parameters
+    const a = parseFloat(req.query.num1);
+    const b = parseFloat(req.query.num2);
+
+    // Calculate the sum
+    const sum = a + b;
+    res.json({ result: sum });
+});
+
+// Calculate operations based on the provided query parameters.
+app.get('/calculate', (req, res) => {
+    // Parse the numbers from the query parameters
+    const calculateString = req.query.calculation;
+    let result = 0;
+    let operator = null;
+    let currNum = '';
+
+    for (let i = 0; i <= calculateString.length; i++) {
+        
+        // if the character is not a number, we assume it's an operator
+        if (isNaN(calculateString[i])) {
+            operator = calculateString[i];
+
+            if (operator === '$') {
+                result = parseFloat(currNum);
+            }
+            else if (operator === '+') {
+                result += parseFloat(currNum);
+            }
+            else if (operator === '-') {
+                result -= parseFloat(currNum);
+            }
+            else if (operator === '*') {
+                result *= parseFloat(currNum);
+            }
+            else if (operator === '/') {
+                result /= parseFloat(currNum);
+            }
+            currNum = '';
+        }
+        else {
+            currNum += calculateString[i];}
+
+    }
+
+    res.json({ result: result });
+});
+
 
 // Start the server and have it listen on the specified port.
 // Once the server is running, log a message to the console indicating where it's accessible.

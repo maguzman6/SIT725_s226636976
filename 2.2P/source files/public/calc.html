@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <h1>Square Calculator</h1>
+    <form action="/square" method="GET">
+        <label for="num">Enter a number:</label>
+        <input type="text" id="num" name="num" required>
+        <button type="button" id="squareBtn">Calculate Square</button>
+    </form>
+    <p id="squareResult"></p>
+
+    <h1>Add Calculator</h1>
+    <form action="/add" method="GET">
+        <label for="num1">Enter first number:</label>
+        <input type="text" id="num1" name="num1" required>
+        <label for="num2">Enter second number:</label>
+        <input type="text" id="num2" name="num2" required>
+        <button type="button" id="addBtn">Calculate Sum </button>
+    </form>
+    
+    <p id="sumResult"></p>
+
+    <button id="backBtn">Back to Main Page</button>
+
+    <script>
+        // Attach an event listener to the button
+        document.getElementById('squareBtn').addEventListener('click', function () {
+            fetch('/square?num=' + document.getElementById('num').value)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the fetched quote in the page
+                    document.getElementById('squareResult').innerText = `The results is: ${data.result}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching square:', error);
+                    document.getElementById('squareResult').innerText = 'Error fetching square.';
+                });
+        });
+
+        document.getElementById('addBtn').addEventListener('click', function () {
+            fetch('/add?num1=' + document.getElementById('num1').value + '&num2=' + document.getElementById('num2').value)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the fetched quote in the page
+                    document.getElementById('sumResult').innerText = `The result is: ${data.result}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching sum:', error);
+                    document.getElementById('sumResult').innerText = 'Error fetching sum.';
+                });
+        });
+
+        document.getElementById('backBtn').addEventListener('click', function () {
+            window.location.href = '/index.html';
+        });
+
+
+    </script>
+</body>
+
+</html>
