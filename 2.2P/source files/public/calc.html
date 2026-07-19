@@ -35,7 +35,7 @@
                 .then(response => response.json())
                 .then(data => {
                     // Display the fetched quote in the page
-                    document.getElementById('squareResult').innerText = `The results is: ${data.result}`;
+                    document.getElementById('squareResult').innerText = `The result is: ${data.result}`;
                 })
                 .catch(error => {
                     console.error('Error fetching square:', error);
