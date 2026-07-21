@@ -30,3 +30,12 @@ nav .brand-logo img {
     background-color: #EE6E73;
     margin-top: 50px;
 }
+
+.card-reveal {
+    color: black;
+}
+
+.card-reveal .card-title,
+.card-reveal p {
+    color: black;
+}
