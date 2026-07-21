@@ -1,0 +1,24 @@
+{
+  "name": "3.2p",
+  "version": "1.0.0",
+  "description": "SIT725 3.2P",
+  "homepage": "https://github.com/maguzman6/SIT725_s226636976#readme",
+  "bugs": {
+    "url": "https://github.com/maguzman6/SIT725_s226636976/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maguzman6/SIT725_s226636976.git"
+  },
+  "license": "MIT",
+  "author": "Max Guzman",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
