@@ -1,0 +1,16 @@
+.navbar-size {
+    width: 95%;
+    margin: 0 auto;
+}
+
+nav .brand-logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+nav .brand-logo img {
+    display: block;
+    height: 50px;
+}
