@@ -9,8 +9,21 @@
     height: calc(100vh - 64px);
 }
 
-
 .click-me-button {
     background-color: #EE6E73;
     margin-top: 50px;
+}
+
+.card-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-reveal {
+    color: black;
+}
+
+.card-reveal .card-title,
+.card-reveal p {
+    color: black;
 }
