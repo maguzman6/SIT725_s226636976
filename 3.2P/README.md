@@ -1,4 +1,4 @@
-For the task, an example as the one showed in the workshop was developed, but in this case it shows coffee images in cards. 
+For the task, an example as shown in the workshop was developed, but in this case, it shows coffee images in cards. 
 
 ![Figure 1: Home page](./screenshots/fig1.png)
 
