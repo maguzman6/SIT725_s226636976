@@ -12,16 +12,16 @@ app.listen(port, () => {
 
 const cardList = [
     {
-        title: "Coffee 2",
+        coffee_name: "Coffee 2",
         image: "https://coffee.alexflipnote.dev/-gVM5xsGzGw_coffee.png",
         link: "About Coffee 2",
-        desciption: "Hi! this is coffee 2"
+        coffee_description: "Hi! this is coffee 2"
     },
     {
-        title: "Coffee 3",
+        coffee_name: "Coffee 3",
         image: "https://coffee.alexflipnote.dev/VQfzJ0Vvxco_coffee.png",
         link: "About Coffee 3",
-        desciption: "Hi! this is coffee 3"
+        coffee_description: "Hi! this is coffee 3"
     }
 ]
 
@@ -37,10 +37,10 @@ app.post("/submit-form", (req, res) => {
     .then(response => response.json())
     .then(data => {
         const coffeeJson = {
-            title: req.body.coffee_name,
+            coffee_name: req.body.coffee_name,
             image: data.file,
             link: "About " + req.body.coffee_name,
-            desciption: req.body.coffee_description
+            coffee_description: req.body.coffee_description
         }
         cardList.push(coffeeJson);
         res.json({"message": "Form submitted successfully", "coffee": coffeeJson});
