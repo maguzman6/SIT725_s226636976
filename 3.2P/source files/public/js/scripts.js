@@ -86,6 +86,9 @@ $(document).ready(function () {
     $('#formSubmit').click(() => {
         submitForm();
     })
+    $('#clickMeButton').click(() => {
+        clickMe();
+    })
 
     fetchCards();
 
