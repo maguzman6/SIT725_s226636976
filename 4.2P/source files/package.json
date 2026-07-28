@@ -1,7 +1,7 @@
 {
-  "name": "3.2p",
+  "name": "4.2p",
   "version": "1.0.0",
-  "description": "SIT725 3.2P",
+  "description": "SIT725 4.2P",
   "homepage": "https://github.com/maguzman6/SIT725_s226636976#readme",
   "bugs": {
     "url": "https://github.com/maguzman6/SIT725_s226636976/issues"
@@ -19,6 +19,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.8.1"
   }
 }
