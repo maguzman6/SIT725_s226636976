@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const Coffee = require('./models/Coffee');
 
-mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@127.0.0.1:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}?authSource=admin`);
+mongoose.connect(`mongodb://${process.env.MONGO_USER || 'root'}:${process.env.MONGO_PASSWORD || 'secretpassword123'}@127.0.0.1:${process.env.MONGO_PORT || '27017'}/${process.env.MONGO_DATABASE || 'coffeeDB'}?authSource=admin`);
 mongoose.connection.on('connected', () => {
     console.log('Connected to MongoDB!');
 });
