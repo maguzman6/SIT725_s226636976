@@ -1,52 +1,46 @@
 var express = require("express")
 var app = express()
+const mongoose = require("mongoose");
 
-app.use(express.static(__dirname + '/public'))
+// Load environment variables from .env file
+require('dotenv').config();
+
+app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const Coffee = require('./models/Coffee');
+
+mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@127.0.0.1:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}?authSource=admin`);
+mongoose.connection.on('connected', () => {
+    console.log('Connected to MongoDB!');
+});
 
 var port = process.env.port || 3000;
 app.listen(port, () => {
     console.log("App listening to: " + port)
-})  
-
-const cardList = [
-    {
-        coffee_name: "Coffee 2",
-        image: "https://coffee.alexflipnote.dev/-gVM5xsGzGw_coffee.png",
-        link: "About Coffee 2",
-        coffee_description: "Hi! this is coffee 2"
-    },
-    {
-        coffee_name: "Coffee 3",
-        image: "https://coffee.alexflipnote.dev/VQfzJ0Vvxco_coffee.png",
-        link: "About Coffee 3",
-        coffee_description: "Hi! this is coffee 3"
-    }
-]
-
-app.get("/get-coffee", (req, res) => {
-    res.json(cardList)
 })
 
-app.post("/submit-form", (req, res) => {
-    console.log("Coffee received: ", req.body);
+app.get("/get-coffee", async (req, res) => {
+    const coffees = await Coffee.find({});
+    res.json(coffees)
+})
 
+app.post("/submit-form", async (req, res) => {
     // obtain random coffee image from API
     fetch("https://coffee.alexflipnote.dev/random.json")
-    .then(response => response.json())
-    .then(data => {
-        const coffeeJson = {
-            coffee_name: req.body.coffee_name,
-            image: data.file,
-            link: "About " + req.body.coffee_name,
-            coffee_description: req.body.coffee_description
-        }
-        cardList.push(coffeeJson);
-        res.json({"message": "Form submitted successfully", "coffee": coffeeJson});
-    })
-    .catch(error => {
-        console.error("Error fetching coffee image:", error);
-        res.status(500).json({ error: "Failed to fetch coffee image" });
-    })
+        .then(response => response.json())
+        .then( async (data) => {
+            const coffee = new Coffee({
+                coffee_name: req.body.coffee_name,
+                image: data.file,
+                description: req.body.coffee_description
+            });
+            await coffee.save();
+            res.json({ "message": "Form submitted successfully", "coffee": coffee });
+        })
+        .catch(error => {
+            console.error("Error fetching coffee image:", error);
+            res.status(500).json({ error: "Failed to fetch coffee image" });
+        })
 })
