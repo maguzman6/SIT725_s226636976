@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 
 // Import route file
-const foodRoutes = require('./routes/food');
+const bookRoutes = require('./routes/book');
 
 // Mount the route at /api/book
 app.use('/api/book', bookRoutes);
