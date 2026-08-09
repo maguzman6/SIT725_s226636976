@@ -10,3 +10,14 @@ exports.getAllBooks = (req, res) => {
     message: 'Books retrieved using service'
   });
 };
+
+// Use the service to get a book by ID
+exports.getBookById = (req, res) => {
+  const items = bookService.getBookById(req.params.id);
+  res.json({
+    status: 200,
+    data: items,
+    message: 'Book retrieved using ID service'
+  });
+};
+
