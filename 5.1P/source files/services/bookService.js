@@ -47,7 +47,7 @@ const getAllBooks = () => {
 };
 
 const getBookById = (id) => {
-  return bookItems.find(book => book.id === id);
+  return [bookItems.find(book => book.id === id)];
 };
 
 module.exports = {
