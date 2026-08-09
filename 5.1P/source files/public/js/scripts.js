@@ -26,9 +26,6 @@ const getBookCards = (items) => {
                 <div class="card-content">
                     <span class="card-title">${book.title}</span>
                     <p><strong>Author:</strong> ${book.author}</p>
-                    <p><strong>Year:</strong> ${book.year}</p>
-                    <p><strong>Genre:</strong> ${book.genre}</p>
-                    <p><strong>Summary:</strong> ${book.summary}</p>
                 </div>
             </div>
         `;
