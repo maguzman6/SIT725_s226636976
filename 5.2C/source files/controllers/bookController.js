@@ -2,8 +2,8 @@
 const bookService = require('../services/bookService');
 
 // Controller uses the service to get data
-exports.getAllBooks = (req, res) => {
-  const items = bookService.getAllBooks();
+exports.getAllBooks = async (req, res) => {
+  const items = await bookService.getAllBooks();
   res.json({
     status: 200,
     data: items,
@@ -12,8 +12,8 @@ exports.getAllBooks = (req, res) => {
 };
 
 // Use the service to get a book by ID
-exports.getBookById = (req, res) => {
-  const items = bookService.getBookById(req.params.id);
+exports.getBookById = async (req, res) => {
+  const items = await bookService.getBookById(req.params.id);
   res.json({
     status: 200,
     data: items,
