@@ -19,7 +19,7 @@ mongoose.connection.on('connected', () => {
     console.log('Connected to MongoDB!');
 });
 
-// Mount the route at /api/book
+// Mount the route at /api/books
 app.use('/api/books', bookRoutes);
 
 // Root route
@@ -27,6 +27,6 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Book List Home Page!');
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
