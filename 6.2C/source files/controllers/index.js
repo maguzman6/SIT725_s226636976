@@ -1,4 +1,5 @@
 module.exports = {
-    bookController: require('./bookController')
+    bookController: require('./bookController'),
+    luckyController: require('./luckyController')
   };
   

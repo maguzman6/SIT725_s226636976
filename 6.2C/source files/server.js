@@ -8,9 +8,11 @@ app.use(express.urlencoded({ extended: false }));
 
 // Import route file
 const bookRoutes = require('./routes/books');
+const luckyRoutes = require('./routes/lucky');
 
 // Mount the route at /api/book
 app.use('/api/books', bookRoutes);
+app.use('/api/lucky', luckyRoutes);
 
 // Root route
 app.get('/', (req, res) => {

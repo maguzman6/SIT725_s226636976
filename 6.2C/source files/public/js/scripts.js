@@ -67,3 +67,21 @@ const searchBookById = () => {
         alert('Please enter a Book ID.');
     }
 };
+
+const getLuckyNumber = () => {
+    const favNumber = document.getElementById('favNumber').value;
+    if (favNumber) {
+        fetch(`/api/lucky?number=${favNumber}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const luckyNumberContainer = document.getElementById('lucky-number-result');
+                luckyNumberContainer.innerHTML = `<p>Your lucky number is: ${data.data.luckyNumber}</p>`;
+            })
+            .catch(error => {
+                console.error('Error fetching lucky number:', error);
+            });
+    } else {
+        alert('Please enter your favorite number.');
+    }
+};
