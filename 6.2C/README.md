@@ -1,21 +1,39 @@
-## Task 2.2P
+## 5.1P MVC
 
-For the task, a simple Express Web Server was developed, which can be executed by running `npm run start` inside the `source files` folder.
+For the task, a modified version of week 5 workshop activity was developed, based on the code available at https://github.com/niroshini/sit725/tree/main/week5_4  
 
-![Figure 1: npm run start command](./screenshots/fig1.png)
+Using that API example, it was developed the following page, creating an public/index.html 
 
-![Figure 2: Main menu](./screenshots/fig2.png)
+![Figure 1: Home page](./screenshots/fig1.png)
 
-I add to the web server a main menu in the `index.html` file with the option of selecting two "calculators":
-- "Task Calculator": This one includes the square function developed during the workshop and the add function to be developed for this task.
+This page as soon as it renders, shows all the records available at the in-memory books list stored in service/bookService.js file. Each one of these records is displayed as a separate card, using the function getBookCards() in js/scripts.js. 
 
-![Figure 3: Task Calculator](./screenshots/fig3.png)
+Then, the API is using Express framework and the MVC architecture showed in the workshop, where we have our services 
 
-- "Sequential Calculator": A sequential calculator that enables to chain basic operations (add, substract, multiply and divide). The calculator sends the sequence as a string query parameter via a GET request to the server to calculate. Note that it does not support parenthesis, therefore the calculations are done sequentially.
+![Figure 2: Services](./screenshots/fig2.png)
 
-![Figure 4: Sequential Calculator](./screenshots/fig4.png)
+Where this bookService contains the logic to return the entire book list, or to use the find function to get books by ID. 
 
-![Figure 5: Sequential Calculator Results](./screenshots/fig5.png)
+Then, importing the bookService file it is available the controller, where it is being defined the two functions that are going to be routed to retrieve all the books (getAllBooks()), or just one book by ID (getBookById()). 
 
-Assumptions:
-- The user will input numbers only. If a non-numeric value is entered, the result will be `null`
+![Figure 3: Controller](./screenshots/fig3.png)
+
+Finally, the routes/books.js file is routing the GET requests to /api/books to getAllBooks function, or /api/books/:id to getBookbyId function as follows. 
+
+![Figure 4: Router](./screenshots/fig4.png)
+
+With this, it is possible to first look for all the results displayed in the index page that are being displayed as soon as the page loads. 
+
+![Figure 5: All the book results](./screenshots/fig5.png)
+
+If the user wants to use the ID search, needs to input a value in the text field available. If no input is used, the page triggers an alert as follows 
+
+![Figure 6: No input search](./screenshots/fig6.png)
+
+In addition to that, if the user input an ID that is not present in the list, the results container shows a card that signals that “No Results Found” 
+
+![Figure 7: No results search](./screenshots/fig7.png)
+
+And finally, if the user inputs a valid ID, then the results are shown as follows 
+
+![Figure 8: Valid ID search](./screenshots/fig8.png)

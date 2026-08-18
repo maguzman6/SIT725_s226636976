@@ -1,5 +1,5 @@
 {
-  "name": "source-files",
+  "name": "5.1P",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -7,12 +7,9 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "description": "",
   "dependencies": {
-    "chai": "^6.2.2",
-    "express": "^5.2.1",
-    "mocha": "^11.8.0",
-    "requests": "^0.3.0"
+    "express": "^5.2.1"
   }
 }
