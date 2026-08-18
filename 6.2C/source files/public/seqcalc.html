@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sequential Calculator</title>
+</head>
+
+<body>
+    <h1>Sequential Calculator</h1>
+    <form action="/calculate" method="GET">
+        <select id="operation" name="operation">
+            <option value="enter" selected=true>Enter</option>
+            <option value="add">Add (+)</option>
+            <option value="substract">Subtract (-)</option>
+            <option value="multiply">Multiply (*)</option>
+            <option value="divide">Divide (/)</option>
+        </select>
+        <label for="num">Enter a number:</label>
+        <input type="text" id="num" name="num" required>
+        <button type="button" id="addBtn">Add Operation</button>
+        <button type="button" id="calculateBtn">Calculate</button>
+    </form>
+    
+    <ul id="operationList">
+        <li>Operations to do:</li>
+    </ul>
+    <p id="resultDisplay"></p>
+
+    <button id="backBtn">Back to Main Page</button>
+
+    <script>
+
+        let toDo = '';
+        const operationSymbols = {
+            "enter": "$",
+            "add": "%2B",
+            "substract": "-",
+            "multiply": "*",
+            "divide": "/",
+        };
+
+        document.getElementById('addBtn').addEventListener('click', function () {
+            const toDoValue = document.getElementById('operation').value;
+            const num = document.getElementById('num').value
+            const operation = document.getElementById('operation').value
+            const operationSymbol = operationSymbols[operation];
+
+            if (toDoValue.length == 0 && toDoValue !== "enter") {
+                alert("Please select enter and add a number.");
+                return;
+            }
+            
+            toDo += (`${num}${operationSymbol}`);
+            document.getElementById('operationList').innerHTML += `<li>${operationSymbol.replace('$', '').replace('%2B', '+')} ${num}</li>`;
+            console.log(toDo);
+        });
+
+        // Attach an event listener to the button
+        document.getElementById('calculateBtn').addEventListener('click', function () {
+            fetch('/calculate?calculation=' + toDo)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the fetched result in the page
+                    document.getElementById('resultDisplay').innerText = `The result of the calculation is: ${data.result}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching calculation:', error);
+                    document.getElementById('resultDisplay').innerText = 'Error fetching calculation.';
+                });
+        });
+
+        document.getElementById('backBtn').addEventListener('click', function () {
+            window.location.href = '/index.html';
+        });
+    </script>
+</body>
+
+</html>
