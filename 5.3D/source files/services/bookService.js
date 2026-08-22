@@ -20,7 +20,7 @@ const updateBook = async (id, updateData) => {
     throw new Error('Cannot update the "id" field');
   }
 
-  const book = await Book.findOneAndUpdate({ id: id }, updateData, { returnDocument: 'after', runValidators: true });
+  const book = await Book.findOneAndUpdate({ id: id }, updateData, { returnDocument: 'after', runValidators: true, strict: 'throw' });
   return book;
 };
 

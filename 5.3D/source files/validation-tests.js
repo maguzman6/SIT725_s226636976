@@ -238,11 +238,35 @@ async function run() {
     tags: ["UPDATE_FAIL"]
   });
 
-  // ---- T07 Missing required field CREATE ----
-  const missingTitleBook = makeValidBook(`b${Date.now() + 2}`);
-  delete missingTitleBook.title;
+  // ---- T07 Missing id CREATE ----
+  const missingIdBook = makeValidBook(`b${Date.now() + 2}`);
+  delete missingIdBook.id;
   await test({
     id: "T07",
+    name: "Missing id CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: missingIdBook,
+    tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+
+  // ---- T08 Empty string id CREATE ----
+  await test({
+    id: "T08",
+    name: "Empty id CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 3}`), id: "" },
+    tags: ["CREATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T09 Missing title CREATE ----
+  const missingTitleBook = makeValidBook(`b${Date.now() + 4}`);
+  delete missingTitleBook.title;
+  await test({
+    id: "T09",
     name: "Missing title CREATE",
     method: "POST",
     path: createPath,
@@ -251,21 +275,90 @@ async function run() {
     tags: ["CREATE_FAIL", "REQUIRED"]
   });
 
-
-  // ---- T08 Invalid type CREATE ----
+  // ---- T10 Empty string title CREATE ----
   await test({
-    id: "T08",
+    id: "T10",
+    name: "Empty title CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 5}`), title: "" },
+    tags: ["CREATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T11 Empty string title UPDATE ----
+  await test({
+    id: "T11",
+    name: "Empty title UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { title: "" },
+    tags: ["UPDATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T12 Missing author CREATE ----
+  const missingAuthorBook = makeValidBook(`b${Date.now() + 6}`);
+  delete missingAuthorBook.author;
+  await test({
+    id: "T12",
+    name: "Missing author CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: missingAuthorBook,
+    tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+
+  // ---- T13 Empty string author CREATE ----
+  await test({
+    id: "T13",
+    name: "Empty author CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 7}`), author: "" },
+    tags: ["CREATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T14 Empty string author UPDATE ----
+  await test({
+    id: "T14",
+    name: "Empty author UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { author: "" },
+    tags: ["UPDATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T15 Missing year CREATE ----
+  const missingYearBook = makeValidBook(`b${Date.now() + 8}`);
+  delete missingYearBook.year;
+  await test({
+    id: "T15",
+    name: "Missing year CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: missingYearBook,
+    tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+
+  // ---- T16 Invalid year type CREATE ----
+  await test({
+    id: "T16",
     name: "Invalid year type CREATE",
     method: "POST",
     path: createPath,
     expected: 400,
-    body: { ...makeValidBook(`b${Date.now() + 3}`), year: "year-as-string" },
+    body: { ...makeValidBook(`b${Date.now() + 9}`), year: "year-as-string" },
     tags: ["CREATE_FAIL", "TYPE"]
   });
 
-  // ---- T09 Invalid type UPDATE ----
+  // ---- T17 Invalid year type UPDATE ----
   await test({
-    id: "T09",
+    id: "T17",
     name: "Invalid year type UPDATE",
     method: "PUT",
     path: updatePath(uniqueId),
@@ -274,64 +367,20 @@ async function run() {
     tags: ["UPDATE_FAIL", "TYPE"]
   });
 
-  // ---- T10 Year boundary CREATE ----
+  // ---- T18 Year boundary CREATE ----
   await test({
-    id: "T10",
+    id: "T18",
     name: "Year above allowed boundary CREATE",
     method: "POST",
     path: createPath,
     expected: 400,
-    body: { ...makeValidBook(`b${Date.now() + 4}`), year: new Date().getFullYear() + 2 },
+    body: { ...makeValidBook(`b${Date.now() + 10}`), year: new Date().getFullYear() + 2 },
     tags: ["CREATE_FAIL", "BOUNDARY", "TEMPORAL"]
   });
 
-  // ---- T11 Price boundary CREATE ----
+  // ---- T19 Year boundary UPDATE ----
   await test({
-    id: "T11",
-    name: "Zero price boundary CREATE",
-    method: "POST",
-    path: createPath,
-    expected: 400,
-    body: { ...makeValidBook(`b${Date.now() + 5}`), price: "0" },
-    tags: ["CREATE_FAIL", "BOUNDARY"]
-  });
-
-  // ---- T12 Price boundary UPDATE ----
-  await test({
-    id: "T12",
-    name: "Negative price boundary UPDATE",
-    method: "PUT",
-    path: updatePath(uniqueId),
-    expected: 400,
-    body: { price: "-1.00" },
-    tags: ["UPDATE_FAIL", "BOUNDARY"]
-  });
-
-  // ---- T13 String length CREATE ----
-  await test({
-    id: "T13",
-    name: "Empty title length CREATE",
-    method: "POST",
-    path: createPath,
-    expected: 400,
-    body: { ...makeValidBook(`b${Date.now() + 6}`), title: "" },
-    tags: ["CREATE_FAIL", "LENGTH"]
-  });
-
-  // ---- T14 String length UPDATE ----
-  await test({
-    id: "T14",
-    name: "Empty summary length UPDATE",
-    method: "PUT",
-    path: updatePath(uniqueId),
-    expected: 400,
-    body: { summary: "" },
-    tags: ["UPDATE_FAIL", "LENGTH"]
-  });
-
-  // ---- T15 Invalid temporal value UPDATE ----
-  await test({
-    id: "T15",
+    id: "T19",
     name: "Future year UPDATE",
     method: "PUT",
     path: updatePath(uniqueId),
@@ -340,20 +389,180 @@ async function run() {
     tags: ["UPDATE_FAIL", "TEMPORAL", "BOUNDARY"]
   });
 
-  // ---- T16 Exceeded summary length CREATE----
+  // ---- T20 Missing genre CREATE ----
+  const missingGenreBook = makeValidBook(`b${Date.now() + 11}`);
+  delete missingGenreBook.genre;
   await test({
-    id: "T16",
-    name: "Exceeded summary length",
+    id: "T20",
+    name: "Missing genre CREATE",
     method: "POST",
     path: createPath,
     expected: 400,
-    body: { summary: "A".repeat(1001) },
+    body: missingGenreBook,
+    tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+
+  // ---- T21 Empty string genre CREATE ----
+  await test({
+    id: "T21",
+    name: "Empty genre CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 12}`), genre: "" },
     tags: ["CREATE_FAIL", "LENGTH"]
   });
 
-  // ---- T17 Delete existing book ----
+  // ---- T22 Empty string genre UPDATE ----
   await test({
-    id: "T17",
+    id: "T22",
+    name: "Empty genre UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { genre: "" },
+    tags: ["UPDATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T23 Missing summary CREATE ----
+  const missingSummaryBook = makeValidBook(`b${Date.now() + 13}`);
+  delete missingSummaryBook.summary;
+  await test({
+    id: "T23",
+    name: "Missing summary CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: missingSummaryBook,
+    tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+
+  // ---- T24 Empty string summary CREATE ----
+  await test({
+    id: "T24",
+    name: "Empty summary CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 14}`), summary: "" },
+    tags: ["CREATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T25 Empty string summary UPDATE ----
+  await test({
+    id: "T25",
+    name: "Empty summary UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { summary: "" },
+    tags: ["UPDATE_FAIL", "LENGTH"]
+  });
+
+  // ---- T26 Exceeded summary length CREATE ----
+  await test({
+    id: "T26",
+    name: "Exceeded summary length CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 15}`), summary: "A".repeat(1001) },
+    tags: ["CREATE_FAIL", "LENGTH", "BOUNDARY"]
+  });
+
+  // ---- T27 Exceeded summary length UPDATE ----
+  await test({
+    id: "T27",
+    name: "Exceeded summary length UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { summary: "A".repeat(1001) },
+    tags: ["UPDATE_FAIL", "LENGTH", "BOUNDARY"]
+  });
+
+  // ---- T28 Missing price CREATE ----
+  const missingPriceBook = makeValidBook(`b${Date.now() + 16}`);
+  delete missingPriceBook.price;
+  await test({
+    id: "T28",
+    name: "Missing price CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: missingPriceBook,
+    tags: ["CREATE_FAIL", "REQUIRED"]
+  });
+
+  // ---- T29 Invalid price type CREATE ----
+  await test({
+    id: "T29",
+    name: "Invalid price type CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 17}`), price: "invalid-price" },
+    tags: ["CREATE_FAIL", "TYPE"]
+  });
+
+  // ---- T30 Invalid price type UPDATE ----
+  await test({
+    id: "T30",
+    name: "Invalid price type UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { price: "invalid-price" },
+    tags: ["UPDATE_FAIL", "TYPE"]
+  });
+
+  // ---- T31 Price zero boundary CREATE ----
+  await test({
+    id: "T31",
+    name: "Zero price boundary CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 18}`), price: "0" },
+    tags: ["CREATE_FAIL", "BOUNDARY"]
+  });
+
+  // ---- T32 Price zero boundary UPDATE ----
+  await test({
+    id: "T32",
+    name: "Zero price boundary UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { price: "0" },
+    tags: ["UPDATE_FAIL", "BOUNDARY"]
+  });
+
+  // ---- T33 Price negative boundary CREATE ----
+  await test({
+    id: "T33",
+    name: "Negative price boundary CREATE",
+    method: "POST",
+    path: createPath,
+    expected: 400,
+    body: { ...makeValidBook(`b${Date.now() + 19}`), price: "-5.00" },
+    tags: ["CREATE_FAIL", "BOUNDARY"]
+  });
+
+  // ---- T34 Price negative boundary UPDATE ----
+  await test({
+    id: "T34",
+    name: "Negative price boundary UPDATE",
+    method: "PUT",
+    path: updatePath(uniqueId),
+    expected: 400,
+    body: { price: "-1.00" },
+    tags: ["UPDATE_FAIL", "BOUNDARY"]
+  });
+
+  // ---- T35 Delete existing book ----
+  await test({
+    id: "T35",
     name: "Delete existing book",
     method: "DELETE",
     path: updatePath(uniqueId),
@@ -361,9 +570,9 @@ async function run() {
     tags: []
   });
 
-  // ---- T18 Delete book not found ----
+  // ---- T36 Delete book not found ----
   await test({
-    id: "T18",
+    id: "T36",
     name: "Delete book not found",
     method: "DELETE",
     path: updatePath("b999"),

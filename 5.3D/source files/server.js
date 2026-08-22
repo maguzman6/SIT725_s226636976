@@ -22,6 +22,11 @@ mongoose.connection.on('connected', () => {
 // Mount the route at /api/books
 app.use('/api/books', bookRoutes);
 
+// Integrity check route
+app.get('/api/integrity-check42', (req, res) => {
+  res.status(204).send();
+});
+
 // Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the Book List Home Page!');
