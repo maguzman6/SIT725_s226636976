@@ -1,39 +1,38 @@
-## 5.1P MVC
+## 6.2C Testing your Code
 
-For the task, a modified version of week 5 workshop activity was developed, based on the code available at https://github.com/niroshini/sit725/tree/main/week5_4  
 
-Using that API example, it was developed the following page, creating an public/index.html 
+For the task, a modified version of 5.1P activity was developed, based on the code available at https://github.com/maguzman6/SIT725_s226636976/tree/main/5.1P
 
-![Figure 1: Home page](./screenshots/fig1.png)
+In that task, the UI shows the list of books stored in memory as follows
 
-This page as soon as it renders, shows all the records available at the in-memory books list stored in service/bookService.js file. Each one of these records is displayed as a separate card, using the function getBookCards() in js/scripts.js. 
+![Figure 1: Books List UI](./screenshots/fig1.png)
 
-Then, the API is using Express framework and the MVC architecture showed in the workshop, where we have our services 
+And for testing purposes a new endpoint was added, that can be tested with this UI form named “Get your lucky number” that takes the number input and get the square of that number plus 7. (e.g. getLuckyNumber(7) = 7^2 + 7 = 56)
 
-![Figure 2: Services](./screenshots/fig2.png)
+![Figure 2: Lucky Number UI Form](./screenshots/fig2.png)
 
-Where this bookService contains the logic to return the entire book list, or to use the find function to get books by ID. 
+Now, we have three endpoints to be tested named:
 
-Then, importing the bookService file it is available the controller, where it is being defined the two functions that are going to be routed to retrieve all the books (getAllBooks()), or just one book by ID (getBookById()). 
+1. `GET /api/books`
+2. `GET /api/books/:id`
+3. `GET /api/lucky?number`
 
-![Figure 3: Controller](./screenshots/fig3.png)
+Where this last one is the dummy endpoint added to use testing over a calculation endpoint.
 
-Finally, the routes/books.js file is routing the GET requests to /api/books to getAllBooks function, or /api/books/:id to getBookbyId function as follows. 
+Then, for each one of them it was added some test as follows
 
-![Figure 4: Router](./screenshots/fig4.png)
+**Lucky API**: First we perform tests over just the getLuckyNumber function to test the behaviour as follows, testing edge cases such as receiving a zero, negative values or floating point decimals.
 
-With this, it is possible to first look for all the results displayed in the index page that are being displayed as soon as the page loads. 
+![Figure 3: Lucky Calculations Unit Tests](./screenshots/fig3.png)
 
-![Figure 5: All the book results](./screenshots/fig5.png)
+At the same time, it is tested this behaviour in the API call, adding checking over getting a 400 error code for missing values or non numeric input
 
-If the user wants to use the ID search, needs to input a value in the text field available. If no input is used, the page triggers an alert as follows 
+![Figure 4: Lucky API Tests](./screenshots/fig4.png)
 
-![Figure 6: No input search](./screenshots/fig6.png)
+**Books API**: The endpoint is tested around getting a valid response from the in-memory list, where each book should have all the required parameters. Then, the same behaviour is tested for the search by ID, but in this case is also tested that we should receive a 404 status code when the ID is not found.
 
-In addition to that, if the user input an ID that is not present in the list, the results container shows a card that signals that “No Results Found” 
+![Figure 5: Books API Tests](./screenshots/fig5.png)
 
-![Figure 7: No results search](./screenshots/fig7.png)
+Finally, running the npm test command in the terminal we get this following result
 
-And finally, if the user inputs a valid ID, then the results are shown as follows 
-
-![Figure 8: Valid ID search](./screenshots/fig8.png)
+![Figure 6: Test Results](./screenshots/fig6.png)
